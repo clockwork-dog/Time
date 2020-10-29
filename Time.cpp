@@ -495,36 +495,6 @@ RealTimeCounter::RealTimeCounter()
 
   uint8_t temp;
 
-  // Initialize 32.768kHz Oscillator:
-  // Disable oscillator:
-  temp = CLKCTRL.XOSC32KCTRLA;
-  temp &= ~CLKCTRL_ENABLE_bm;
-
-  // Enable writing to protected register
-  CPU_CCP = CCP_IOREG_gc;
-  CLKCTRL.XOSC32KCTRLA = temp;
-
-  while (CLKCTRL.MCLKSTATUS & CLKCTRL_XOSC32KS_bm)
-  {
-    ; // Wait until XOSC32KS becomes 0
-  }
-
-  // SEL = 0 (Use External Crystal):
-  temp = CLKCTRL.XOSC32KCTRLA;
-  temp &= ~CLKCTRL_SEL_bm;
-
-  // Enable writing to protected register
-  CPU_CCP = CCP_IOREG_gc;
-  CLKCTRL.XOSC32KCTRLA = temp;
-
-  // Enable oscillator:
-  temp = CLKCTRL.XOSC32KCTRLA;
-  temp |= CLKCTRL_ENABLE_bm;
-
-  // Enable writing to protected register
-  CPU_CCP = CCP_IOREG_gc;
-  CLKCTRL.XOSC32KCTRLA = temp;
-
   // Initialize RTC:
   while (RTC.STATUS > 0)
   {
